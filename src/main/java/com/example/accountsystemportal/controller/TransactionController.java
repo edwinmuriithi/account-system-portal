@@ -1,9 +1,47 @@
 package com.example.accountsystemportal.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.accountsystemportal.entities.Transaction;
+import com.example.accountsystemportal.entities.dtos.TransactionDTO;
+import com.example.accountsystemportal.services.TransactionService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {
+
+    @Autowired
+    private TransactionService transactionService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
+
+    @PostMapping("/{userId}")
+    public ResponseEntity<TransactionDTO> createExpenditure(@RequestBody TransactionDTO transactionDTO, @PathVariable(value = "userId") Long userId){
+        Transaction transactionRequest = modelMapper.map(transactionDTO,Transaction.class);
+        Transaction transaction = transactionService.createTransaction(transactionRequest,userId);
+        TransactionDTO transactionResponse = modelMapper.map(transaction, TransactionDTO.class);
+        return new ResponseEntity<TransactionDTO>(transactionResponse, HttpStatus.CREATED);
+
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TransactionDTO>> viewAll(){
+
+        return ResponseEntity.ok(transactionService.viewTransactions().stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList()));
+    }
+
+
 }
