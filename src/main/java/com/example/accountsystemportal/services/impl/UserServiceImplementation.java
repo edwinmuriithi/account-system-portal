@@ -4,6 +4,7 @@ import com.example.accountsystemportal.entities.Transaction;
 import com.example.accountsystemportal.entities.User;
 import com.example.accountsystemportal.repositories.UserRepository;
 import com.example.accountsystemportal.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserServiceImplementation implements UserService {
 
     @Autowired
@@ -51,5 +53,12 @@ public class UserServiceImplementation implements UserService {
         existingUser.setBalance(user.getBalance());
         User updatedUser = userRepository.save(existingUser);
         return updatedUser;
+    }
+
+    @Override
+    public void deleteUser(Long userId) throws Exception {
+        userRepository.findById(userId).orElseThrow(()-> new Exception("user with id "+userId+ " not found"));
+        log.info("Successfully deleted user");
+        userRepository.deleteById(userId);
     }
 }

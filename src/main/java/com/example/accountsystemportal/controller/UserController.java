@@ -5,6 +5,7 @@ import com.example.accountsystemportal.entities.User;
 import com.example.accountsystemportal.entities.dtos.TransactionDTO;
 import com.example.accountsystemportal.entities.dtos.UserDTO;
 import com.example.accountsystemportal.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
@@ -60,6 +62,13 @@ public class UserController {
         UserDTO userResponse = modelMapper.map(user,UserDTO.class);
         return ResponseEntity.ok().body(userResponse);
     }
+
+    @DeleteMapping("/{userId}")
+    public void deleteUser(@PathVariable Long userId) throws Exception {
+        log.info("Campaign has been deleted successfully");
+        userService.deleteUser(userId);
+    }
+
 
 }
 

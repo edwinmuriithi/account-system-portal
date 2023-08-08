@@ -14,4 +14,6 @@ public interface TransactionService {
     List<Transaction> viewTransactions() ;
 
     Transaction updateTransactionById(Transaction transaction, Long transactionId) throws Exception;
+
+    void deleteTransaction(Long transactionId) throws Exception;
 }

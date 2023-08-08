@@ -56,4 +56,10 @@ public class TransactionController {
            }
 
 
+    @DeleteMapping("/{transactionId}")
+    public void deleteTransaction(@PathVariable Long transactionId) throws Exception {
+        log.info("Transaction has been deleted successfully");
+        transactionService.deleteTransaction(transactionId);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.example.accountsystemportal.services.impl;
 import com.example.accountsystemportal.entities.Transaction;
 import com.example.accountsystemportal.repositories.TransactionRepository;
 import com.example.accountsystemportal.services.TransactionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class TransactionServiceImplementation implements TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
@@ -39,5 +41,12 @@ public class TransactionServiceImplementation implements TransactionService {
         Transaction newTransaction = transactionRepository.save(existingTransaction);
 
         return newTransaction;
+    }
+
+    @Override
+    public void deleteTransaction(Long transactionId) throws Exception {
+        transactionRepository.findById(transactionId).orElseThrow(()-> new Exception("transaction with id "+transactionId+ " not found"));
+        log.info("Successfully deleted transaction");
+        transactionRepository.deleteById(transactionId);
     }
 }
