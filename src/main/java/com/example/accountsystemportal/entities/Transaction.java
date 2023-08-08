@@ -31,4 +31,36 @@ public class Transaction {
     private void onCreate(){
         transactionDate =  LocalDate.now();
     }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public Integer getTransactionAmount() {
+        return transactionAmount;
+    }
+
+    public void setTransactionAmount(Integer transactionAmount) {
+        this.transactionAmount = transactionAmount;
+    }
+
+    public LocalDate getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
