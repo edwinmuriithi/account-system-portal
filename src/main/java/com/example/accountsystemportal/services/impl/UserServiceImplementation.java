@@ -6,6 +6,9 @@ import com.example.accountsystemportal.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserServiceImplementation implements UserService {
 
@@ -24,5 +27,17 @@ public class UserServiceImplementation implements UserService {
         user.setAccountType(user.getAccountType());
         User newUser = userRepository.save(user);
         return newUser;
+    }
+
+    @Override
+    public List<User> viewUsers() {
+        List<User> user = userRepository.findAll();
+        return user;
+    }
+
+    @Override
+    public User findUserById(Long userId) {
+        Optional<User> users = userRepository.findById(userId);
+        return users.get();
     }
 }
