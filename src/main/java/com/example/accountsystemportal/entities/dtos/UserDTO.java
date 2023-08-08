@@ -1,5 +1,6 @@
 package com.example.accountsystemportal.entities.dtos;
 
+import com.example.accountsystemportal.entities.Transaction;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ public class UserDTO {
     private String accountType;
     private Integer balance;
 
-    private List<TransactionDTO> transactionDTOS;
+    private List<Transaction> transactionList;
     @JsonFormat(pattern="yyyy-MM-dd ")
     private LocalDate createdDate;
 

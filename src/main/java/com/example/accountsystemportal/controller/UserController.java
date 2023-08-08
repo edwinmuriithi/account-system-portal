@@ -1,6 +1,8 @@
 package com.example.accountsystemportal.controller;
 
+import com.example.accountsystemportal.entities.Transaction;
 import com.example.accountsystemportal.entities.User;
+import com.example.accountsystemportal.entities.dtos.TransactionDTO;
 import com.example.accountsystemportal.entities.dtos.UserDTO;
 import com.example.accountsystemportal.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -47,5 +49,18 @@ public class UserController {
         User user = userService.findUserById(userId);
         UserDTO userResponse = modelMapper.map(user, UserDTO.class);
 
-        return ResponseEntity.ok().body(userResponse);}
+        return ResponseEntity.ok().body(userResponse);
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserDTO> updateUserById(@RequestBody UserDTO userDTO, @PathVariable Long userId)
+            throws Exception {
+        User userRequest = modelMapper.map(userDTO, User.class);
+        User user = userService.updateUserById(userRequest, userId);
+        UserDTO userResponse = modelMapper.map(user,UserDTO.class);
+        return ResponseEntity.ok().body(userResponse);
+    }
+
 }
+
+

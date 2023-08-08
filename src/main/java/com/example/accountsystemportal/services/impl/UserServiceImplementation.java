@@ -1,5 +1,6 @@
 package com.example.accountsystemportal.services.impl;
 
+import com.example.accountsystemportal.entities.Transaction;
 import com.example.accountsystemportal.entities.User;
 import com.example.accountsystemportal.repositories.UserRepository;
 import com.example.accountsystemportal.services.UserService;
@@ -39,5 +40,16 @@ public class UserServiceImplementation implements UserService {
     public User findUserById(Long userId) {
         Optional<User> users = userRepository.findById(userId);
         return users.get();
+    }
+
+    @Override
+    public User updateUserById(User user, Long userId) throws Exception {
+        User existingUser = userRepository.findById(userId).orElseThrow(()-> new Exception("Transaction with ID "+userId+" not found"));
+        existingUser.setFname(user.getFname());
+        existingUser.setDob(user.getDob());
+        existingUser.setAccountType(user.getAccountType());
+        existingUser.setBalance(user.getBalance());
+        User updatedUser = userRepository.save(existingUser);
+        return updatedUser;
     }
 }
