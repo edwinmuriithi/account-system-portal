@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,6 +23,9 @@ public class User {
     private LocalDate dob;
     private String accountType;
     private Integer balance;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Transaction> transactionList;
     @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate createdDate;
