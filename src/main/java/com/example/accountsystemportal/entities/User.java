@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user")
+@Table(name = "accountUser")
 public class User {
 
     @Id
@@ -29,54 +29,6 @@ public class User {
     @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate createdDate;
-
-    public String getFname() {
-        return fname;
-    }
-
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
-
-    public LocalDate getDob() {
-        return dob;
-    }
-
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
-
-    public Integer getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Integer balance) {
-        this.balance = balance;
-    }
-
-    public List<Transaction> getTransactionList() {
-        return transactionList;
-    }
-
-    public void setTransactionList(List<Transaction> transactionList) {
-        this.transactionList = transactionList;
-    }
-
-    public LocalDate getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDate createdDate) {
-        this.createdDate = createdDate;
-    }
 
     @PrePersist
     private void onCreate(){

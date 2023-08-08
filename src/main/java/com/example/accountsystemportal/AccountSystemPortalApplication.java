@@ -15,6 +15,7 @@ public class AccountSystemPortalApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AccountSystemPortalApplication.class, args);
+
 	}
 
 }
