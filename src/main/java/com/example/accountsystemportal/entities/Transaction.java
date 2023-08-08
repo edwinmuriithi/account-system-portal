@@ -23,6 +23,9 @@ public class Transaction {
     @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate transactionDate;
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @PrePersist
     private void onCreate(){
