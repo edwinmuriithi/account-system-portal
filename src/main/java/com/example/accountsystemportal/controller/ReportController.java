@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/reports")
@@ -18,7 +19,7 @@ public class ReportController {
     private ReportService reportService;
 
     @GetMapping("/{format}")
-    public String generateReport(@PathVariable String format) throws JRException, FileNotFoundException {
+    public String generateReport(@PathVariable String format) throws JRException, IOException {
         return reportService.exportReport(format);
     }
 
