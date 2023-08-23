@@ -23,6 +23,7 @@ public class User {
     private LocalDate dob;
     private String accountType;
     private Integer balance;
+    private String nationalId;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Transaction> transactionList;
