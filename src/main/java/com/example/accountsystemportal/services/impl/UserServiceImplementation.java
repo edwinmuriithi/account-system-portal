@@ -28,6 +28,7 @@ public class UserServiceImplementation implements UserService {
         user.setDob(user.getDob());
         user.setBalance(user.getBalance());
         user.setAccountType(user.getAccountType());
+        user.setNationalId(user.getNationalId());
         User newUser = userRepository.save(user);
         return newUser;
     }
@@ -51,6 +52,7 @@ public class UserServiceImplementation implements UserService {
         existingUser.setDob(user.getDob());
         existingUser.setAccountType(user.getAccountType());
         existingUser.setBalance(user.getBalance());
+        existingUser.setNationalId(user.getNationalId());
         User updatedUser = userRepository.save(existingUser);
         return updatedUser;
     }

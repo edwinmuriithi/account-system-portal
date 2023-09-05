@@ -29,7 +29,7 @@ public class TransactionController {
     }
 
     @PostMapping("/{userId}")
-    public ResponseEntity<TransactionDTO> createExpenditure(@RequestBody TransactionDTO transactionDTO, @PathVariable(value = "userId") Long userId){
+    public ResponseEntity<TransactionDTO> createExpenditure(@PathVariable("userId") Long userId, @RequestBody TransactionDTO transactionDTO){
         Transaction transactionRequest = modelMapper.map(transactionDTO,Transaction.class);
         Transaction transaction = transactionService.createTransaction(transactionRequest,userId);
         TransactionDTO transactionResponse = modelMapper.map(transaction, TransactionDTO.class);
