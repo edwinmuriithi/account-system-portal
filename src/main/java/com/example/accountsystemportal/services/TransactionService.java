@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public interface TransactionService {
 
-    Transaction createTransaction(Transaction transaction, Long transactionId);
+    Transaction createTransaction(Transaction transaction, Long userId);
 
     List<Transaction> viewTransactions() ;
 

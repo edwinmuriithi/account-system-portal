@@ -1,6 +1,7 @@
 package com.example.accountsystemportal.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,8 +24,9 @@ public class Transaction {
     @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate transactionDate;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @PrePersist

@@ -20,8 +20,8 @@ public class UserDTO {
     private LocalDate dob;
     private String accountType;
     private Integer balance;
-
-    private List<Transaction> transactionList;
+    private String nationalId;
+    private List<TransactionDTO> transactionList;
     @JsonFormat(pattern="yyyy-MM-dd ")
     private LocalDate createdDate;
 
