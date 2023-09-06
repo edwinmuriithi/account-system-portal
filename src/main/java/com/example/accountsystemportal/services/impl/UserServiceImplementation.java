@@ -27,8 +27,8 @@ public class UserServiceImplementation implements UserService {
         user.setFname(user.getFname());
         user.setDob(user.getDob());
         user.setBalance(user.getBalance());
-        user.setAccountType(user.getAccountType());
-        user.setNationalId(user.getNationalId());
+        user.setAccount_type(user.getAccount_type());
+        user.setNational_id(user.getNational_id());
         User newUser = userRepository.save(user);
         return newUser;
     }
@@ -50,9 +50,9 @@ public class UserServiceImplementation implements UserService {
         User existingUser = userRepository.findById(userId).orElseThrow(()-> new Exception("Transaction with ID "+userId+" not found"));
         existingUser.setFname(user.getFname());
         existingUser.setDob(user.getDob());
-        existingUser.setAccountType(user.getAccountType());
+        existingUser.setAccount_type(user.getAccount_type());
         existingUser.setBalance(user.getBalance());
-        existingUser.setNationalId(user.getNationalId());
+        existingUser.setNational_id(user.getNational_id());
         User updatedUser = userRepository.save(existingUser);
         return updatedUser;
     }

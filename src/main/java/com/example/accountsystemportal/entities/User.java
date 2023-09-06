@@ -21,19 +21,19 @@ public class User {
     private Long id;
     private String fname;
     private LocalDate dob;
-    private String accountType;
+    private String account_type;
     private Integer balance;
-    private String nationalId;
+    private String national_id;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Transaction> transactionList;
     @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd")
-    private LocalDate createdDate;
+    private LocalDate created_date;
 
     @PrePersist
     private void onCreate(){
-        createdDate =  LocalDate.now();
+        created_date =  LocalDate.now();
     }
 
 }
