@@ -1,6 +1,8 @@
 package com.example.accountsystemportal.services.impl;
 
 import com.example.accountsystemportal.entities.User;
+import com.example.accountsystemportal.exceptions.EncryptionException;
+import com.example.accountsystemportal.exceptions.ReportNotFoundException;
 import com.example.accountsystemportal.repositories.UserRepository;
 import com.example.accountsystemportal.services.ReportService;
 import net.sf.jasperreports.engine.*;
@@ -30,45 +32,56 @@ public class ReportServiceImplementation implements ReportService {
 
 
     @Override
-    public byte[] encryptPdf(byte[] pdfBytes, String password) throws IOException {
-        PDDocument document = PDDocument.load(pdfBytes);
-        AccessPermission accessPermission = new AccessPermission();
+    public byte[] encryptPdf(byte[] pdfBytes, String password) throws EncryptionException {
+        try {
+            PDDocument document = PDDocument.load(pdfBytes);
+            AccessPermission accessPermission = new AccessPermission();
 
-        StandardProtectionPolicy standardProtectionPolicy = new StandardProtectionPolicy(password, password, accessPermission);
-        standardProtectionPolicy.setEncryptionKeyLength(128);
+            StandardProtectionPolicy standardProtectionPolicy = new StandardProtectionPolicy(password, password, accessPermission);
+            standardProtectionPolicy.setEncryptionKeyLength(128);
 
-        document.protect(standardProtectionPolicy);
+            document.protect(standardProtectionPolicy);
 
-        ByteArrayOutputStream encryptedPdfStream = new ByteArrayOutputStream();
-        document.save(encryptedPdfStream);
-        document.close();
+            ByteArrayOutputStream encryptedPdfStream = new ByteArrayOutputStream();
+            document.save(encryptedPdfStream);
+            document.close();
 
-        return encryptedPdfStream.toByteArray();
+            return encryptedPdfStream.toByteArray();
+        } catch (IOException e) {
+            throw new EncryptionException("Failed to encrypt PDF");
+        }
     }
+
 
     @Override
-    public byte[] generateUserReport() throws IOException, JRException {
-        List<Map<String, Object>> combinedData = new ArrayList<>();
-        List<User> users = userRepository.findAll();
+    public byte[] generateUserReport() throws ReportNotFoundException {
+        try {
+            List<Map<String, Object>> combinedData = new ArrayList<>();
+            List<User> users = userRepository.findAll();
 
-        for (User user : users){
-            Map<String, Object> dataMap = new HashMap<>();
-            dataMap.put("id", user.getId());
-            dataMap.put("fname", user.getFname());
-            dataMap.put("national_id",user.getNational_id());
-            dataMap.put("balance", user.getBalance());
-            combinedData.add(dataMap);
+            for (User user : users){
+                Map<String, Object> dataMap = new HashMap<>();
+                dataMap.put("id", user.getId());
+                dataMap.put("fname", user.getFname());
+                dataMap.put("national_id", user.getNational_id());
+                dataMap.put("balance", user.getBalance());
+                combinedData.add(dataMap);
+            }
+
+            ClassPathResource jrxmlResource = new ClassPathResource("reports/users.jrxml");
+            InputStream jrxmlInputStream = jrxmlResource.getInputStream();
+            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(combinedData);
+            Map<String, Object> parameter = new HashMap<>();
+            parameter.put("createdBy", "HR Manager");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameter, dataSource);
+
+            return JasperExportManager.exportReportToPdf(jasperPrint);
+        } catch (ReportNotFoundException | JRException | IOException e) {
+            throw new ReportNotFoundException("Failed to generate user report");
         }
-        ClassPathResource jrxmlResource = new ClassPathResource("reports/users.jrxml");
-        InputStream jrxmlInputStream = jrxmlResource.getInputStream();
-        JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(combinedData);
-        Map<String, Object> parameter = new HashMap<>();
-        parameter.put("createdBy", "HR Manager");
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameter, dataSource);
-
-        return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 
-    }
+
+}
 

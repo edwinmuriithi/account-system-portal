@@ -53,4 +53,20 @@ public class AppExceptionHandler {
         return errorMap;
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(ReportNotFoundException.class)
+    public Map<String, String> handleBusinessException(ReportNotFoundException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", ex.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(EncryptionException.class)
+    public Map<String, String> handleBusinessException(EncryptionException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", ex.getMessage());
+        return errorMap;
+    }
+
 }
