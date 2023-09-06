@@ -57,9 +57,16 @@ public class TransactionController {
 
 
     @DeleteMapping("/{transactionId}")
-    public void deleteTransaction(@PathVariable Long transactionId) throws Exception {
-        log.info("Transaction has been deleted successfully");
-        transactionService.deleteTransaction(transactionId);
+    public ResponseEntity<String> deleteTransaction(@PathVariable Long transactionId) {
+        try {
+            transactionService.deleteTransaction(transactionId);
+            log.info("Transaction with ID {} has been deleted successfully", transactionId);
+            return ResponseEntity.ok("Transaction deleted successfully");
+        } catch (Exception e) {
+            log.error("Failed to delete transaction with ID {}", transactionId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete transaction");
+        }
     }
+
 
 }

@@ -64,10 +64,17 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable Long userId) throws Exception {
-        log.info("Campaign has been deleted successfully");
-        userService.deleteUser(userId);
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+        try {
+            userService.deleteUser(userId);
+            log.info("User with ID {} has been deleted successfully", userId);
+            return ResponseEntity.ok("User deleted successfully");
+        } catch (Exception e) {
+            log.error("Failed to delete user with ID {}", userId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user");
+        }
     }
+
 
 
 }
